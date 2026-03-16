@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: verifai-backend
+    env: python
+    region: frankfurt
+    plan: starter
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: FRONTEND_URL
+        value: https://verifai.vercel.app
+      - key: FILE_EXPIRY_MINUTES
+        value: 30
+      - key: MAX_FILE_SIZE_MB
+        value: 200
+      - key: UPLOAD_DIR
+        value: /tmp/verifai/uploads
+      - key: OUTPUT_DIR
+        value: /tmp/verifai/outputs
+      - key: HUGGINGFACE_API_TOKEN
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+    disk:
+      name: verifai-tmp
+      mountPath: /tmp
+      sizeGB: 5

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://verifai.app/sitemap.xml
